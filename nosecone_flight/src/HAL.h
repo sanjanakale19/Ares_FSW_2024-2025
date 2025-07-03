@@ -42,6 +42,10 @@ namespace HAL {
     // SD/Flash
     const uint8_t SD_CS = 4;
 
+    // CAN TX/RX
+    const uint8_t CANRX = 26;
+    const uint8_t CANTX = 25;
+
     void initCSPins() {
         pinMode(TRANSMITTER_CS, OUTPUT);
         pinMode(ALT1_BMP390_CS, OUTPUT);

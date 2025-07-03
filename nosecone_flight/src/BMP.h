@@ -15,6 +15,7 @@ namespace BMP {
 
     double temp1, pressure1, altitude1;
     // double temp2, pressure2, altitude2;
+    long lastTime = 0;
 
     void setupBMP() {
         for (int i=0; i<300; i++) {
@@ -37,46 +38,47 @@ namespace BMP {
 
 
     
-    int readAltimeters() {
-  
-        if (! bmp1.performReading()) {
-            return 0;
+    int readAltimeters(long current) {
+        if (current - lastTime > 50) {
+            lastTime = current;
+            if (! bmp1.performReading()) {
+                return 0;
+            }
+            else {
+                temp1 = bmp1.temperature;
+                pressure1 = bmp1.pressure / 100.0;
+                altitude1 = bmp1.readAltitude(SEALEVELPRESSURE_HPA);
+            }
+
+            // if (! bmp2.performReading()) {
+            //     return 0;
+            // }
+            // else {
+            //     temp2 = bmp2.temperature;
+            //     pressure2 = bmp2.pressure / 1000.0;
+            //     altitude2 = bmp2.readAltitude(SEALEVELPRESSURE_HPA);
+            // }
+
+            DEBUG("Altimeter 1 (BMP): ");
+            DEBUG(temp1);
+            DEBUG(" *C, ");
+            DEBUG(pressure1);
+            DEBUG(" hPa, ");
+            DEBUG(altitude1);
+            DEBUGLN(" m");
+            // DEBUG("Altimeter 2: ");
+            // DEBUG(temp2);
+            // DEBUG(" *C, ");
+            // DEBUG(pressure2);
+            // DEBUG(" kPa, ");
+            // DEBUG(altitude2);
+            // DEBUGLN(" m");
+
+            return 1;
+
         }
-        else {
-            temp1 = bmp1.temperature;
-            pressure1 = bmp1.pressure / 100.0;
-            altitude1 = bmp1.readAltitude(SEALEVELPRESSURE_HPA);
-        }
-
-        // if (! bmp2.performReading()) {
-        //     return 0;
-        // }
-        // else {
-        //     temp2 = bmp2.temperature;
-        //     pressure2 = bmp2.pressure / 1000.0;
-        //     altitude2 = bmp2.readAltitude(SEALEVELPRESSURE_HPA);
-        // }
-
-        DEBUG("Altimeter 1 (BMP): ");
-        DEBUG(temp1);
-        DEBUG(" *C, ");
-        DEBUG(pressure1);
-        DEBUG(" hPa, ");
-        DEBUG(altitude1);
-        DEBUGLN(" m");
-        // DEBUG("Altimeter 2: ");
-        // DEBUG(temp2);
-        // DEBUG(" *C, ");
-        // DEBUG(pressure2);
-        // DEBUG(" kPa, ");
-        // DEBUG(altitude2);
-        // DEBUGLN(" m");
-
-        return 1;
-
+        return 0;
     }
-
-    
 
 }
 

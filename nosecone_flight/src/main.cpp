@@ -8,6 +8,7 @@
 #include "INA.h"
 #include "Radio.h"
 #include "INA.h"
+#include "CANRX.h"
 #include <Arduino.h>
 
 String getSDstring() {
@@ -46,18 +47,59 @@ void printDebug() {
   Serial.println(s);
 }
 
+// void core0_processes(void* param) {
+//   while(1) {
+//     // read core0/HSPI sensors
+//     GPS::readGPS();
+//     BMP::readAltimeters();
+
+//     // read CAN, will wait for 20 ms, set to 0 for non blocking
+//     CANRX::decodeMessage(20);
+
+//     if (millis() - Radio::lastTransmissionTime > 250) {
+//       Radio::downlink_packet = "";
+//       Radio::downlink_packet += getSDstring();
+//       Radio::downlink_packet += "," + String(XTSD::logSuccess) + "|";
+
+//       if (CANRX::msgReady) {
+//         Serial.println("got a complete CAN packet");
+//         Radio::downlink_packet += CANRX::decoded_msg;
+//         CANRX::msgReady = false;
+//       }
+//       Serial.println(Radio::downlink_packet);
+//       Radio::transmitPacket();
+//     }
+//   }
+// }
+
 void core0_processes(void* param) {
   while(1) {
-    // read core0/HSPI sensors
-    GPS::readGPS();
-    BMP::readAltimeters();
+    long currentMillis = millis();
 
-    if (millis() - Radio::lastTransmissionTime > 250) {
+    // read core0/HSPI sensors
+    GPS::readGPS(currentMillis);
+    BMP::readAltimeters(currentMillis);
+
+    // read CAN, will wait for 20 ms, set to 0 for non blocking
+    CANRX::decodeMessage(0);
+
+    // debug printing
+    // if (CANRX::msgDecodeState == 2) {
+    //   Serial.println("got a complete CAN packet");
+    //   Serial.println(CANRX::decoded_msg);
+    // }
+
+    if (CANRX::msgDecodeState != 1 && (currentMillis - Radio::lastTransmissionTime > 250)) {
       Radio::downlink_packet = "";
       Radio::downlink_packet += getSDstring();
-      Radio::downlink_packet += "," + String(XTSD::logSuccess);
-  
-      DEBUGLN(Radio::downlink_packet);
+      Radio::downlink_packet += "," + String(XTSD::logSuccess) + "|";
+
+      if (CANRX::msgDecodeState == 2) {
+        // Serial.println("got a complete CAN packet");
+        Radio::downlink_packet += CANRX::decoded_msg;
+        CANRX::msgDecodeState = 0;
+      }
+      Serial.println(Radio::downlink_packet);
       Radio::transmitPacket();
     }
   }
@@ -79,7 +121,8 @@ void setup() {
   ICM::setupIMU();
   GPS::setup();
   Radio::setupRadio();
-  // XTSD::setupSD();
+  XTSD::setupSD();
+  CANRX::setupCAN();
     
   xTaskCreatePinnedToCore (
     core0_processes,     // Function to implement the task
@@ -94,17 +137,16 @@ void setup() {
 }
 
 void loop() {
-
   // read core1/VSPI sensors
   MS::readAltimeter();
   ICM::readIMU();
   INA::readINA();
   
   /* SD logging */
-  // int oldTime = micros();
-  // XTSD::logStr = getSDstring();
-  // XTSD::logSD(XTSD::logStr);
-  // XTSD::logTime = micros() - oldTime;
+  int oldTime = micros();
+  XTSD::logStr = getSDstring();
+  XTSD::logSD(XTSD::logStr);
+  XTSD::logTime = micros() - oldTime;
 
   /* DEBUG */
   // printDebug();

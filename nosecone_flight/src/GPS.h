@@ -94,31 +94,31 @@ void setup()
   myGNSS.saveConfigSelective(VAL_CFG_SUBSEC_IOPORT); //Save (only) the communications port settings to flash and BBR
 }
 
-void readGPS()
+void readGPS(long current)
 {
   //Query module only every second. Doing it more often will just cause SPI traffic.
   //The module only responds when a new position is available
-  if (millis() - lastTime > 2000)
+  if (current - lastTime > 2000)
   {
-    lastTime = millis(); //Update the timer
+    lastTime = current; //Update the timer
     
     latitude = myGNSS.getLatitude() / 1E7;
     // Serial.print(F("Lat: "));
     // Serial.print(latitude);
 
     longitude = myGNSS.getLongitude() / 1E7;
-    DEBUG(F(" Long: "));
-    DEBUG(longitude);
-    DEBUG(F(" (degrees * 10^-7)"));
+    // DEBUG(F(" Long: "));
+    // DEBUG(longitude);
+    // DEBUG(F(" (degrees * 10^-7)"));
 
     altitude = myGNSS.getAltitude() / 1E3;
-    DEBUG(F(" Alt: "));
-    DEBUG(altitude);
-    DEBUG(F(" (mm)"));
+    // DEBUG(F(" Alt: "));
+    // DEBUG(altitude);
+    // DEBUG(F(" (mm)"));
 
     SIV = myGNSS.getSIV();
-    DEBUG(F(" SIV: "));
-    DEBUG(SIV);
+    // DEBUG(F(" SIV: "));
+    // DEBUG(SIV);
   }
 }
 }
