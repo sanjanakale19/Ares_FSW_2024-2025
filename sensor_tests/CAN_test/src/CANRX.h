@@ -50,7 +50,7 @@ namespace CANRX {
     }
 
     void decodeMessage() {
-        if(ESP32Can.readFrame(rxFrame, 1000)) {
+        if(ESP32Can.readFrame(rxFrame, 20)) {   // previously 1000ms, set to 0 for non blocking
             // Serial.printf("Received frame: %03X  \r\n", rxFrame.identifier);
             // printFrameData(rxFrame);
             // return if identifier invalid

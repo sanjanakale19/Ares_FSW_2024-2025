@@ -56,7 +56,7 @@ void setup() {
   MS::setupMS();
   ADS8688_PT::setupADS8688();
   ADS1256_LOAD::setupADS();
-  // CANTX::setupCAN();
+  CANTX::setupCAN();
   XTSD::setupSD();
 }
 
@@ -78,10 +78,10 @@ void loop() {
   XTSD::logTime = micros() - oldTime;
 
   // transmit CAN every second
-  // if (millis() - CANTX::lastTransmission > 1000) {
-  //   CANTX::lastTransmission = millis();
-  //   CANTX::encodeMessage(str);
-  // }
+  if (currentTime - CANTX::lastTransmission > 997) {
+    CANTX::lastTransmission = currentTime;
+    CANTX::encodeMessage(str);
+  }
   
   /* DEBUG */
   // printDebug();

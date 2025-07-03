@@ -24,6 +24,7 @@ namespace XTSD {
             return;
         } 
 
+        // overwrites every time
         dataFile = SD.open(fileName, FILE_WRITE);
 
         // TODO: BEFORE LAUNCH CHANGE BACK TO APPEND

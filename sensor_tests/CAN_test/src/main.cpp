@@ -4,15 +4,16 @@
 
 void setup() {
   Serial.begin(115200);
-  CANTX::setupCAN();
-  // CANRX::setupCAN();
+  // CANTX::setupCAN();
+  CANRX::setupCAN();
 }
 
 void loop() {
-  String s = "hello!";
+  String s = "hello world and all who inhabit it, i'm ready!!!!!!!!!!!!!!!!!";
   // Serial.println("length of tx str = " + String(s.length()));
-  CANTX::encodeMessage(s);
-  // CANRX::decodeMessage();
+  // CANTX::encodeMessage(s);
+  // Serial.println("about to decode .....");
+  CANRX::decodeMessage();
 
-  delay(100);
+  // delay(100);
 }
