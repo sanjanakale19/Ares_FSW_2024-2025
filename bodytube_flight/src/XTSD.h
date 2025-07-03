@@ -8,7 +8,7 @@
 namespace XTSD {
     
     File dataFile;
-    const char* fileName = "/bodytube_test.txt";
+    const char* fileName = "/test.txt";
 
     String logStr = "";
 
@@ -24,7 +24,10 @@ namespace XTSD {
             return;
         } 
 
-        dataFile = SD.open(fileName, FILE_APPEND);
+        dataFile = SD.open(fileName, FILE_WRITE);
+
+        // TODO: BEFORE LAUNCH CHANGE BACK TO APPEND
+        // dataFile = SD.open(fileName, FILE_APPEND);
     }
 
     void logSD(String str) {

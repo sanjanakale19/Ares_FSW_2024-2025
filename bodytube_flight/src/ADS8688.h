@@ -8,6 +8,7 @@
 namespace ADS8688_PT {
 
     ADS8688 adc; // Create ADC instance
+    int lastRead = 0;
 
     // Calibration Coefficients (y=ax+b)
     const float a[8] = {1, 1, 1, 1, 1, 1, 1, 1}; // multipliers
@@ -27,29 +28,32 @@ namespace ADS8688_PT {
         adc.setInputRange(CS, 0x05);
     }
 
-    void readADS() {
-        float voltages[8]; // Contains 8 Pressure Readings
-        float calibratedVoltages[8] = {0xffff,0xffff,0xffff,0xffff,0xffff,0xffff,0xffff,0xffff}; // Store calibrated values
+    void readADS(long millis) {
+        if (millis - lastRead > 47) {
+            lastRead = millis;
+            float voltages[8]; // Contains 8 Pressure Readings
+            float calibratedVoltages[8] = {0xffff,0xffff,0xffff,0xffff,0xffff,0xffff,0xffff,0xffff}; // Store calibrated values
 
-        // Read PTs from ADC (CS)
-        adc.readAllChannels(CS, true, voltages);
+            // Read PTs from ADC (CS)
+            adc.readAllChannels(CS, true, voltages);
 
-        // Apply calibration to PTs
-        for (int i = 0; i < 8; i++) {
-            calibratedVoltages[i] = 0.5f * voltages[i];
+            // Apply calibration to PTs
+            for (int i = 0; i < 8; i++) {
+                calibratedVoltages[i] = 0.5f * voltages[i];
+            }
+
+            // unclear why it maps to channels 2-5 when hardware should be set to 0-4 but don't question it
+            pt0 = calibratedVoltages[2];
+            pt1 = calibratedVoltages[3];
+            pt2 = calibratedVoltages[4];
+            pt3 = calibratedVoltages[5];
+
+            // for (int i = 0; i < 7; i++) {
+            //     DEBUGLN(String(calibratedVoltages[i],2) + ",");
+            // }
+            // DEBUGLN(String(calibratedVoltages[7],2)); // Last value without trailing comma */
+            delay(20);
         }
-
-        // unclear why it maps to channels 2-5 when hardware should be set to 0-4 but don't question it
-        pt0 = calibratedVoltages[2];
-        pt1 = calibratedVoltages[3];
-        pt2 = calibratedVoltages[4];
-        pt3 = calibratedVoltages[5];
-
-        for (int i = 0; i < 7; i++) {
-            DEBUGLN(String(calibratedVoltages[i],2) + ",");
-        }
-        DEBUGLN(String(calibratedVoltages[7],2)); // Last value without trailing comma */
-        delay(20);
     }
 }
 

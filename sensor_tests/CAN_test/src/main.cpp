@@ -10,7 +10,7 @@ void setup() {
 
 void loop() {
   String s = "hello!";
-  Serial.println("length of tx str = " + String(s.length()));
+  // Serial.println("length of tx str = " + String(s.length()));
   CANTX::encodeMessage(s);
   // CANRX::decodeMessage();
 

@@ -6,8 +6,8 @@
 
 namespace CANRX {
     const long MAX_SIZE = 256;
-    const uint8_t CANRX = 18;
-    const uint8_t CANTX = 19;
+    const uint8_t CANRX = 26;
+    const uint8_t CANTX = 25;
     const uint32_t id = 0x7DF;
 
     CanFrame rxFrame;

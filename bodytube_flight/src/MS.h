@@ -12,6 +12,7 @@ namespace MS {
     // MS5607 ms5607;
     
     uint32_t start, stop;
+    int lastRead = 0;
     
     float temp, pressure, altitude;
 
@@ -46,45 +47,30 @@ namespace MS {
 
 
     
-    int readAltimeter() {
-        
-        // if(ms5607.readDigitalValue()){
-        //     temp = ms5607.getTemperature();
-        //     pressure = ms5607.getPressure();
-        //     altitude = ms5607.getAltitude();
-        // }else{
-        //     DEBUGLN("Error in reading digital value in sensor!");
-        //     return 0;
-        // }     
+    int readAltimeter(long millis) {
+        if (millis - lastRead > 71) { // previously 500
+            lastRead = millis;
 
-        // DEBUG("Altimeter 2: ");
-        // DEBUG(temp);
-        // DEBUG(" *C, ");
-        // DEBUG(pressure);
-        // DEBUG(" kPa, ");
-        // DEBUG(altitude);
-        // DEBUGLN(" m");
-        
-        // return 1;
+            ms5607.read();
+            temp = ms5607.getTemperature();
+            pressure = ms5607.getPressure();
 
-        ms5607.read();
-        temp = ms5607.getTemperature();
-        pressure = ms5607.getPressure();
-
-        // TODO: potentially sus conversion?
-        altitude = t0 / t_grad * (1 - exp((t_grad * R / g) * log(pressure / SEALEVELPRESSURE_HPA)));
+            // TODO: potentially sus conversion?
+            altitude = t0 / t_grad * (1 - exp((t_grad * R / g) * log(pressure / SEALEVELPRESSURE_HPA)));
 
 
-        DEBUG("Altimeter 2 (MS5607): ");
-        DEBUG(temp);
-        // DEBUG(",");
-        DEBUG(" *C, ");
-        DEBUG(pressure);
-        // DEBUG(",");
-        DEBUG(" mbar, ");
-        DEBUGLN(altitude);
-        DEBUGLN(" m");
-        return 1;
+            DEBUG("Altimeter 2 (MS5607): ");
+            DEBUG(temp);
+            // DEBUG(",");
+            DEBUG(" *C, ");
+            DEBUG(pressure);
+            // DEBUG(",");
+            DEBUG(" mbar, ");
+            DEBUGLN(altitude);
+            DEBUGLN(" m");
+            return 1;
+        }
+        return 0;
     }
 
     

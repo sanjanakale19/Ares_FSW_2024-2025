@@ -5,8 +5,8 @@
 #include <ESP32-TWAI-CAN.hpp>
 
 namespace CANTX {
-    const uint8_t CANRX = 18;
-    const uint8_t CANTX = 19;
+    const uint8_t CANRX = 10;
+    const uint8_t CANTX = 9;
     const uint32_t identifier = 0x7DF;
 
     CanFrame frame = {0};

@@ -37,10 +37,11 @@ namespace INA {
         ina.wireWriteByte (MFR_DEVICE_CONFIG, 0x06);
     }
     
-    void readINA() {
-        if (millis() - lastRead > 500) {
+    void readINA(long millis) {
+        if (millis - lastRead > 113) { // previously 500
             // bus_voltage = 0;
-        bus_voltage=ina.getBusVoltage_V();
+            lastRead = millis;
+            bus_voltage=ina.getBusVoltage_V();
         // DEBUG("Bus Voltage:   "); DEBUG(bus_voltage);DEBUGLN(" V, ");
         }
     }

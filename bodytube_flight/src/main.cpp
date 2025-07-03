@@ -5,6 +5,7 @@
 #include "INA.h"
 #include "ADS8688.h"
 #include "ADS1256.h"
+#include "CANTX.h"
 #include <Arduino.h>
 
 // getting SD packet to log SD card
@@ -53,29 +54,39 @@ void setup() {
   // initialize sensors
   INA::setupINA();
   MS::setupMS();
-  
   ADS8688_PT::setupADS8688();
   ADS1256_LOAD::setupADS();
-  // XTSD::setupSD();
+  // CANTX::setupCAN();
+  XTSD::setupSD();
 }
 
+// core 1 processing
 void loop() {
+  long currentTime = millis();
+
   // read sensors
-  INA::readINA();
-  MS::readAltimeter();
-  ADS8688_PT::readADS();
-  ADS1256_LOAD::readADS();
+  INA::readINA(currentTime);            // 11k
+  MS::readAltimeter(currentTime);       // 600 Hz
+  ADS8688_PT::readADS(currentTime);     // 1k-2k
+  ADS1256_LOAD::readADS();              // 1.3k
+  String str = getSDstr();
 
-  /* SD logging */
-  // int oldTime = micros();
-  // XTSD::logStr = getSDstr();
-  // XTSD::logSD(XTSD::logStr);
-  // XTSD::logTime = micros() - oldTime;
+  // /* SD logging */
+  int oldTime = micros();
+  XTSD::logStr = str;
+  XTSD::logSD(XTSD::logStr);
+  XTSD::logTime = micros() - oldTime;
 
+  // transmit CAN every second
+  // if (millis() - CANTX::lastTransmission > 1000) {
+  //   CANTX::lastTransmission = millis();
+  //   CANTX::encodeMessage(str);
+  // }
+  
   /* DEBUG */
-  printDebug();
-  // Serial.println(getSDstr());
-  delay(100);
+  // printDebug();
+  // Serial.println(str);
+  // delay(100);
 }
 
 
