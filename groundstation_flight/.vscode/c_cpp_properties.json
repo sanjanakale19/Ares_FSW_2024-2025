@@ -8,9 +8,9 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "/Users/sanjanakale/Ares-Flight-Software/Test Rocket/ground_station/include",
-                "/Users/sanjanakale/Ares-Flight-Software/Test Rocket/ground_station/src",
-                "/Users/sanjanakale/Ares-Flight-Software/Test Rocket/ground_station/lib/LoRa/src",
+                "/Users/sanjanakale/Documents/RocketProject_FSW/groundstation_flight/include",
+                "/Users/sanjanakale/Documents/RocketProject_FSW/groundstation_flight/src",
+                "/Users/sanjanakale/Documents/RocketProject_FSW/groundstation_flight/lib/LoRa/src",
                 "/Users/sanjanakale/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src",
                 "/Users/sanjanakale/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/newlib/platform_include",
                 "/Users/sanjanakale/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include",
@@ -248,9 +248,9 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "/Users/sanjanakale/Ares-Flight-Software/Test Rocket/ground_station/include",
-                    "/Users/sanjanakale/Ares-Flight-Software/Test Rocket/ground_station/src",
-                    "/Users/sanjanakale/Ares-Flight-Software/Test Rocket/ground_station/lib/LoRa/src",
+                    "/Users/sanjanakale/Documents/RocketProject_FSW/groundstation_flight/include",
+                    "/Users/sanjanakale/Documents/RocketProject_FSW/groundstation_flight/src",
+                    "/Users/sanjanakale/Documents/RocketProject_FSW/groundstation_flight/lib/LoRa/src",
                     "/Users/sanjanakale/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src",
                     "/Users/sanjanakale/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/newlib/platform_include",
                     "/Users/sanjanakale/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include",

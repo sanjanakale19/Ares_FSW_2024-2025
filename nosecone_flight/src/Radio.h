@@ -36,15 +36,14 @@ namespace Radio {
     }
 
 
-    void transmitPacket() {
-        int oldTime = millis();
+    void transmitPacket(long millis) {
         radio.beginPacket();
         radio.print(downlink_packet);
         radio.endPacket(true);
-        lastTransmissionTime = millis() - oldTime;  
+        lastTransmissionTime = millis;  
         DEBUGLN("transmit");
         DEBUGLN();
-        delay(100);
+        // delay(100);
     }
 
     // #define syncWord 0x45

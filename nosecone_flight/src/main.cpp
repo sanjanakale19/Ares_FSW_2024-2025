@@ -83,24 +83,18 @@ void core0_processes(void* param) {
     // read CAN, will wait for 20 ms, set to 0 for non blocking
     CANRX::decodeMessage(0);
 
-    // debug printing
-    // if (CANRX::msgDecodeState == 2) {
-    //   Serial.println("got a complete CAN packet");
-    //   Serial.println(CANRX::decoded_msg);
-    // }
-
     if (CANRX::msgDecodeState != 1 && (currentMillis - Radio::lastTransmissionTime > 250)) {
       Radio::downlink_packet = "";
       Radio::downlink_packet += getSDstring();
-      Radio::downlink_packet += "," + String(XTSD::logSuccess) + "|";
+      Radio::downlink_packet += "," + String(XTSD::logSuccess);
 
       if (CANRX::msgDecodeState == 2) {
         // Serial.println("got a complete CAN packet");
-        Radio::downlink_packet += CANRX::decoded_msg;
+        Radio::downlink_packet += "BODYTUBEDATA:" + CANRX::decoded_msg;
         CANRX::msgDecodeState = 0;
       }
       Serial.println(Radio::downlink_packet);
-      Radio::transmitPacket();
+      Radio::transmitPacket(currentMillis);
     }
   }
 }
