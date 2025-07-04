@@ -52,6 +52,9 @@ namespace HAL {
     // Digital Signal
     const uint8_t IO12 = 12;
 
+    // Indication LED
+    const uint8_t TEST_LED = 35;
+
     void initCSPins() {
         // write all cs pins high
         pinMode(MS5607_CS, OUTPUT);
@@ -61,6 +64,8 @@ namespace HAL {
         pinMode(ADS_DRDY, INPUT);
         pinMode(ADS8688_CS, OUTPUT);
         pinMode(SD_CS, OUTPUT);
+        pinMode(IO12, OUTPUT);
+        pinMode(TEST_LED, OUTPUT);
 
         digitalWrite(MS5607_CS, HIGH);
         digitalWrite(BMI323_CS, HIGH);
@@ -72,6 +77,9 @@ namespace HAL {
 
         // IO12 write high
         digitalWrite(IO12, HIGH);
+
+        // TEST LED write high
+        digitalWrite(TEST_LED, HIGH);
     }
 
     void initHSPI() {

@@ -83,14 +83,10 @@ while True:
         print(rssi)
         print(error)
         print(snr)
-    
-
-        #print(data)
-        # Reset packet counter
         packet_counter = 0
 
         # combine all data values together, separated by comma
-        for key, val in zip(field_keys, data_fields):
+        for key, val in zip(nosecone_fields, data_fields):
             fields += f'{key}={val}'
             if (key == 'bus_voltage') : break
             fields += ','

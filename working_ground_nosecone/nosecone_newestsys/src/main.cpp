@@ -104,7 +104,7 @@ void setup() {
   GPS::setup();
   Radio::setupRadio();
   CANRX::setupCAN();
-  XTSD::setupSD();
+  // XTSD::setupSD();
   
     
   xTaskCreatePinnedToCore (
@@ -127,7 +127,7 @@ void loop() {
   int oldTime = micros();
   String s = getSDstring();
   XTSD::logStr = s;
-  XTSD::logSD(XTSD::logStr);
+  // XTSD::logSD(XTSD::logStr);
   XTSD::logTime = micros() - oldTime;
 
 

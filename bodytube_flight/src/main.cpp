@@ -75,13 +75,14 @@ void loop() {
   // int oldTime = micros();
   // XTSD::logStr = str;
   // XTSD::logSD(XTSD::logStr);
-  // XTSD::logTime = micros() - oldTime;
+  // XTSD::logTime = micros() - oldTime
+  ;
 
   // transmit CAN every second
-  // if (currentTime - CANTX::lastTransmission > 997) {
-  //   CANTX::lastTransmission = currentTime;
-  //   CANTX::encodeMessage(str);
-  // }
+  if (currentTime - CANTX::lastTransmission > 997) {
+    CANTX::lastTransmission = currentTime;
+    CANTX::encodeMessage(str);
+  }
   
   /* DEBUG */
   printDebug();
