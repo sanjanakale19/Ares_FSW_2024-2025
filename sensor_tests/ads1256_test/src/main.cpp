@@ -6,18 +6,16 @@
 #define SPI_SCLK 14
 #define SPI_MOSI 13
 #define SPI_CS  4
-
 #define DRDY 15
 
-// Define LED indicator pin
-// #define LED 7
-
 SPIClass spi_ads(FSPI); // Create custom SPI instance
-ADS1256 ADC(&spi_ads, DRDY, SPI_CS, 2.5, -1, -1); // Instantiate ADS1256
+ADS1256 ADC(&spi_ads, DRDY, SPI_CS, 2.5); // Instantiate ADS1256
 
 // Calibration coefficients y=Ax+B
-float calibrationA = -4.54 / 1000.0;
+float calibrationA = -454;
 float calibrationB = 0.083;
+
+float weight;
 
 // convertToWeight function
 // Returns measured force (lbf)
@@ -63,9 +61,10 @@ void loop()
   float voltageValue = ADC.convertToVoltage(rawConversion) * 1000; 
 
   // Convert voltage to weight
-  // float weight = convertToWeight(voltageValue);      
+  weight = convertToWeight(voltageValue);      
 
   // Print results
-  Serial.print(String(-voltageValue, 5));
+  // Serial.print("voltage = " + String(-voltageValue, 5));
+  Serial.println("loadcell weight = " + String(weight, 5));
   Serial.println();
 }

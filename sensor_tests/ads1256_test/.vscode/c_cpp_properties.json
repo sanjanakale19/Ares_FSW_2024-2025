@@ -8,9 +8,9 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "/Users/sanjanakale/Documents/RocketProject_FSW/ads1256_test/include",
-                "/Users/sanjanakale/Documents/RocketProject_FSW/ads1256_test/src",
-                "/Users/sanjanakale/Documents/RocketProject_FSW/ads1256_test/lib/ADS1256/src",
+                "/Users/sanjanakale/Documents/RocketProject_FSW/sensor_tests/ads1256_test/include",
+                "/Users/sanjanakale/Documents/RocketProject_FSW/sensor_tests/ads1256_test/src",
+                "/Users/sanjanakale/Documents/RocketProject_FSW/sensor_tests/ads1256_test/lib/ADS1256/src",
                 "/Users/sanjanakale/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src",
                 "/Users/sanjanakale/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/newlib/platform_include",
                 "/Users/sanjanakale/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include",
@@ -248,9 +248,9 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "/Users/sanjanakale/Documents/RocketProject_FSW/ads1256_test/include",
-                    "/Users/sanjanakale/Documents/RocketProject_FSW/ads1256_test/src",
-                    "/Users/sanjanakale/Documents/RocketProject_FSW/ads1256_test/lib/ADS1256/src",
+                    "/Users/sanjanakale/Documents/RocketProject_FSW/sensor_tests/ads1256_test/include",
+                    "/Users/sanjanakale/Documents/RocketProject_FSW/sensor_tests/ads1256_test/src",
+                    "/Users/sanjanakale/Documents/RocketProject_FSW/sensor_tests/ads1256_test/lib/ADS1256/src",
                     "/Users/sanjanakale/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src",
                     "/Users/sanjanakale/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/newlib/platform_include",
                     "/Users/sanjanakale/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include",

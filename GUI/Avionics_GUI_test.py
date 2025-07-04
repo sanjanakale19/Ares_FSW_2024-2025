@@ -33,8 +33,10 @@ String(GPS::latitude, 6) + "," + String(GPS::longitude, 6) + "," + String(GPS::a
 String(INA::bus_voltage, 3);
 '''
 # gps coordinates lat and long need to be named "latitude" and "longitude" in order to display on geomap
-field_keys = ["micros","temp1", "pressure1", "alt1", "temp2", "pressure2", "alt2", "accelx", "accely", "accelz","gyrox", "gyroy","gyroz", "lat", "long", "gps_alt", "SIV", "bus_voltage", "rssi","error","snr"]
-2
+nosecone_fields = ["micros", "logtime", "temp1", "pressure1", "alt1", "temp2", "pressure2", "alt2", "accelx", "accely", "accelz","gyrox", "gyroy","gyroz", "lat", "long", "gps_alt", "SIV", "bus_voltage", "logsuccess"]
+bodytube_fields = ["micros_bt", "logtime_bt", "temp_bt", "pressure_bt", "alt_bt", "pt0", "pt1", "pt2", "pt3", "loadcell_weight", "bus_voltage_bt", "logsuccess_bt"]
+radio_fields = ["rssi","error","snr"]
+
 # just in case
 def getTime():
     return time.time_ns()

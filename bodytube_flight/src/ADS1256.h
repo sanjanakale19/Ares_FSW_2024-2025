@@ -12,9 +12,11 @@ namespace ADS1256_LOAD {
   float voltageValue;
   float weight;
 
+  // -2.21 * (raw voltage) + 18
+
   // Calibration coefficients y=Ax+B
-  float calibrationA = -4.54 / 1000.0;
-  float calibrationB = 0.083;
+  float calibrationA = -2.21;
+  float calibrationB = 18;
 
   // convertToWeight function
   // Returns measured force (lbf)
@@ -24,7 +26,7 @@ namespace ADS1256_LOAD {
 
   void setupADS() {
     // Instantiate ADS1256
-    ADC = new ADS1256(HAL::VSPI_bus, HAL::ADS_DRDY, HAL::ADS1256_CS, 2.5, -1, -1);
+    ADC = new ADS1256(HAL::VSPI_bus, HAL::ADS_DRDY, HAL::ADS1256_CS, 2.5);
 
     // ADC Setup
     ADC->InitializeADC(); 
@@ -48,11 +50,14 @@ namespace ADS1256_LOAD {
     // Convert raw ADC value to voltage
     voltageValue = ADC->convertToVoltage(rawConversion) * 1000; 
 
+    voltageValue = voltageValue * 100;
+
     // Convert voltage to weight
     weight = convertToWeight(voltageValue);      
 
     // Print results
-    // Serial.println(String(weight, 10));
+    // Serial.println(String(voltageValue, 15));
+    // Serial.println(String(weight, 15));
   }
 }
 

@@ -35,7 +35,7 @@ void printDebug() {
   s += "ADS8688 ch0 = " + String(ADS8688_PT::pt0, 3) + ", ch1 = " + String(ADS8688_PT::pt1, 3);
   s += ", ch2 = " + String(ADS8688_PT::pt2, 3) + ", ch3 = " + String(ADS8688_PT::pt3, 3) + "\n";
   // ADS1256 load cell readings
-  s += "loadcell voltage = " + String(ADS1256_LOAD::voltageValue, 4) += " V, weight = " + String(ADS1256_LOAD::weight, 8) + " lb\n";
+  s += "load cell weight = " + String(ADS1256_LOAD::weight, 8) + " lbf\n";
   // INA
   s += "ina bus voltage: " + String(INA::bus_voltage, 3);
 
@@ -72,21 +72,21 @@ void loop() {
   String str = getSDstr();
 
   // /* SD logging */
-  int oldTime = micros();
-  XTSD::logStr = str;
-  XTSD::logSD(XTSD::logStr);
-  XTSD::logTime = micros() - oldTime;
+  // int oldTime = micros();
+  // XTSD::logStr = str;
+  // XTSD::logSD(XTSD::logStr);
+  // XTSD::logTime = micros() - oldTime;
 
   // transmit CAN every second
-  if (currentTime - CANTX::lastTransmission > 997) {
-    CANTX::lastTransmission = currentTime;
-    CANTX::encodeMessage(str);
-  }
+  // if (currentTime - CANTX::lastTransmission > 997) {
+  //   CANTX::lastTransmission = currentTime;
+  //   CANTX::encodeMessage(str);
+  // }
   
   /* DEBUG */
-  // printDebug();
+  printDebug();
   // Serial.println(str);
-  // delay(100);
+  delay(100);
 }
 
 
