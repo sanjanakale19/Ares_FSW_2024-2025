@@ -32,13 +32,6 @@ namespace HAL {
     const uint8_t INA_SDA_PIN = 5;
     const uint8_t INA_SCL_PIN = 19;
 
-    // Serial 
-    // const uint8_t GPS_RX_PIN = 16;
-    // const uint8_t GPS_TX_PIN = 17;
-    // const uint8_t GPS_I2C_PORT = 2; //This is not a pin
-    // HardwareSerial gps_serial(GPS_I2C_PORT);
-
-    /* ---------- Pinouts ---------- */
     // Transmitter
     const uint8_t TRANSMITTER_RST = 21;
     const uint8_t TRANSMITTER_CS = 17;
@@ -48,12 +41,15 @@ namespace HAL {
     const uint8_t ALT1_BMP390_CS = 32;
     const uint8_t ALT2_MS5607_CS = 15;
 
-
     // IMU
     const uint8_t IMU_CS = 33;
 
     // SD/Flash
     const uint8_t SD_CS = 4;
+
+    // CAN TX/RX
+    const uint8_t CANRX = 26;
+    const uint8_t CANTX = 25;
 
     void initCSPins() {
         pinMode(IMU_CS, OUTPUT);

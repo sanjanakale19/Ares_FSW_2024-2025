@@ -71,6 +71,7 @@ void loop() {
     Serial.print(" with SNR ");
     Serial.print(",");
     Serial.println(radioA.packetSnr());
+    Serial.println();
   }
 
 }
