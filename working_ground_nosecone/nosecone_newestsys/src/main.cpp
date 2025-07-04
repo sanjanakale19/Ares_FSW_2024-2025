@@ -64,7 +64,6 @@ void radioGPS(void* param) {
       Radio::downlink_packet += "," + String(XTSD::logSuccess);
 
       if (CANRX::msgDecodeState == 2) {
-        // Serial.println("got a complete CAN packet");
         Radio::downlink_packet += "|" + CANRX::decoded_msg;
         CANRX::msgDecodeState = 0;
       }
@@ -105,7 +104,7 @@ void setup() {
   GPS::setup();
   Radio::setupRadio();
   CANRX::setupCAN();
-  // XTSD::setupSD();
+  XTSD::setupSD();
   
     
   xTaskCreatePinnedToCore (
@@ -126,27 +125,10 @@ void loop() {
   INA::readINA();
   
   int oldTime = micros();
-
-  // for SD LOGGING
-  // XTSD::logStr = (String)micros() + ",";
-  // XTSD::logStr += String(XTSD::logTime) + ",";
-  // XTSD::logStr += String(BMP::temp1, 2) + "," + String(BMP::pressure1, 2) + "," + String(BMP::altitude1, 2) + ",";
-  // XTSD::logStr += String(MS::temp, 2) + "," + String(MS::pressure, 2) + "," + String(MS::altitude, 2) + ",";
-  // XTSD::logStr += String(ICM::accel_x, 2) + "," + String(ICM::accel_y, 2) + "," + String(ICM::accel_z, 2) + ",";
-  // XTSD::logStr += String(ICM::gyro_x, 2) + "," + String(ICM::gyro_y, 2) + "," + String(ICM::gyro_z, 2) + ",";
-  // XTSD::logStr += String(GPS::latitude, 6) + "," + String(GPS::longitude, 6) + "," + String(GPS::altitude, 2) + ",";
-
-  // for DEBUG
-  // XTSD::logStr += "BMP temp: " + String(BMP::temp1, 2) + ", pressure: " + String(BMP::pressure1, 2) + ", alt: " + String(BMP::altitude1, 2) + ",\n";
-  // XTSD::logStr += "MS temp: " + String(MS::temp, 2) + ", pressure: " + String(MS::pressure, 2) + ", alt: " + String(MS::altitude, 2) + ",\n";
-  // XTSD::logStr += "ICM accelx: " + String(ICM::accel_x, 2) + ", accely: " + String(ICM::accel_y, 2) + ", accelz: " + String(ICM::accel_z, 2) + ", ";
-  // XTSD::logStr += " gyro_x: " + String(ICM::gyro_x, 2) + ", gyro_y: " + String(ICM::gyro_y, 2) + ", gyro_z: " + String(ICM::gyro_z, 2) + ",\n";
-  // XTSD::logStr += "gps lat: " + String(GPS::latitude, 6) + ", gps long: " + String(GPS::longitude, 6) + ", gps alt: " + String(GPS::altitude, 2) + ", ";
-  // XTSD::logStr += "gps SIV: " + String(GPS::SIV, 6) + ",\n\n";
-
-  // // XTSD::logSD(XTSD::logStr);
-  // XTSD::logTime = micros() - oldTime;
-  // XTSD::i++;
+  String s = getSDstring();
+  XTSD::logStr = s;
+  XTSD::logSD(XTSD::logStr);
+  XTSD::logTime = micros() - oldTime;
 
 
   // Serial.println(XTSD::logStr);
