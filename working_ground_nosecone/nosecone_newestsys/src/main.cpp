@@ -124,15 +124,15 @@ void loop() {
   ICM::readIMU();
   INA::readINA();
   
-  int oldTime = micros();
-  String s = getSDstring();
-  XTSD::logStr = s;
+  // SD logging
+  // int oldTime = micros();
+  // String s = getSDstring();
+  // XTSD::logStr = s;
   // XTSD::logSD(XTSD::logStr);
-  XTSD::logTime = micros() - oldTime;
+  // XTSD::logTime = micros() - oldTime;
 
-
+  // DEBUG
   // Serial.println(XTSD::logStr);
 
-  // DEBUGLN();
-  // delay(100);
+  delay(100);
 }

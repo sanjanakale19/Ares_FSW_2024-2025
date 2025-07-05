@@ -44,7 +44,7 @@ namespace BMP {
         }
         else {
             temp1 = bmp1.temperature;
-            pressure1 = bmp1.pressure / 1000.0;
+            pressure1 = bmp1.pressure / 100.0;
             altitude1 = bmp1.readAltitude(SEALEVELPRESSURE_HPA);
         }
 
@@ -61,7 +61,7 @@ namespace BMP {
         DEBUG(temp1);
         DEBUG(" *C, ");
         DEBUG(pressure1);
-        DEBUG(" kPa, ");
+        DEBUG(" mBar, ");
         DEBUG(altitude1);
         DEBUGLN(" m");
         // DEBUG("Altimeter 2: ");

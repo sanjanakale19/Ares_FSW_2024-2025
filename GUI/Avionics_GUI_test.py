@@ -6,6 +6,7 @@ import os
 import random
 from serial import Serial
 import serial.tools.list_ports as list_ports
+import os
 
 ports = list(list_ports.comports())
 for i,p in enumerate(ports):
@@ -32,10 +33,18 @@ String(ICM::gyro_x, 2) + "," + String(ICM::gyro_y, 2) + "," + String(ICM::gyro_z
 String(GPS::latitude, 6) + "," + String(GPS::longitude, 6) + "," + String(GPS::altitude, 2) + "," + String(GPS::SIV) + ",";
 String(INA::bus_voltage, 3);
 '''
-# gps coordinates lat and long need to be named "latitude" and "longitude" in order to display on geomap
-nosecone_fields = ["micros", "logtime", "temp1", "pressure1", "alt1", "temp2", "pressure2", "alt2", "accelx", "accely", "accelz","gyrox", "gyroy","gyroz", "lat", "long", "gps_alt", "SIV", "bus_voltage", "logsuccess"]
-bodytube_fields = ["micros_bt", "logtime_bt", "temp_bt", "pressure_bt", "alt_bt", "pt0", "pt1", "pt2", "pt3", "loadcell_weight", "bus_voltage_bt", "logsuccess_bt"]
-radio_fields = ["rssi","error","snr"]
+# gps coordinates lat and long need to be named "latitude"/"lat" and "longitude"/"long" in order to display on geomap
+# lat / long is for nosecone gps
+# latitude and longitude is for computer gps
+nosecone_keys = ["micros", "logtime", "temp1", "pressure1", "alt1", "temp2", "pressure2", "alt2", "accelx", "accely", "accelz","gyrox", "gyroy","gyroz", "lat", "long", "gps_alt", "SIV", "bus_voltage", "logsuccess"]
+bodytube_keys = ["micros_bt", "logtime_bt", "temp_bt", "pressure_bt", "alt_bt", "pt0", "pt1", "pt2", "pt3", "loadcell_weight", "bus_voltage_bt", "logsuccess_bt"]
+radio_keys = ["rssi","error","snr"]
+additional_keys = ["accel_total", "latitude", "longitude", "geodesic_distance", "geodesic_bearing"]
+
+# pt0 = ox
+# pt1 = press
+# pt2 = fuel
+# pt3 = chamber
 
 # just in case
 def getTime():
@@ -63,7 +72,8 @@ while True:
         serial_in = serial_in.strip("\r\n")
         # print(serial_in)
     except:
-        print("serial read issue")
+
+        print("serial read issue: " + str(serial_in))
         serial_in = ""
     
     line = serial_in
@@ -73,28 +83,58 @@ while True:
     try:
         args = line.split('\'')    # args[0] is empty, args[1] = data params, args[2] is radio params
 
-        data_fields = args[1].split(',')
+        # nosecone_fields = args[1].split(',')
+        # split() args[1] by | and the 0th will be nosecone, 1st will be bodytube
+
+        nosecone_string = ""
+        bodytube_string = ""
+        bodytube_fields = ()
+        fields = "" # combined fields used for nosecone and bodytube (can be None)
+
+        try:
+            # Case 1: body and nosecone tx
+            data_params = args[1].split("|")
+            nosecone_string = data_params[0]
+            bodytube_string = data_params[1] # should throw index error if DNE
+
+            bodytube_fields = bodytube_string.split(',')
+            # combine all bodytubes data values together, separated by comma
+            for key, val in zip(bodytube_keys, bodytube_fields):
+                fields += f'{key}={val}'
+                # if (key == 'bus_voltage_bt') : break
+                fields += ','
+
+        except:
+            # Case 2: only nosecone transmitted
+            nosecone_string = args[1]
+            bodytube_fields = {}
+        
+        nosecone_fields = nosecone_string.split(',')
+        # combine all nosecone data values together, separated by comma
+        for key, val in zip(nosecone_keys, nosecone_fields):
+            fields += f'{key}={val}'
+            # if (key == 'bus_voltage') : break
+            fields += ','
+
+
+
 
         radio_fields = args[2].split(',')
         rssi = radio_fields[1]
         error = radio_fields[3]
         snr = radio_fields[5]
 
-        print(rssi)
-        print(error)
-        print(snr)
+        # print(rssi)
+        # print(error)
+        # print(snr)
         packet_counter = 0
 
-        # combine all data values together, separated by comma
-        for key, val in zip(nosecone_fields, data_fields):
-            fields += f'{key}={val}'
-            if (key == 'bus_voltage') : break
-            fields += ','
+        
 
         # manually add radio parameters
-        fields += f'rssi={rssi},'
-        fields += f'error={error},'
-        fields += f'snr={snr}'
+        fields += "rssi=" + rssi + ","
+        fields += "error=" + error + ","
+        fields += "snr=" + snr
     except:
         print("serial read issue")
 

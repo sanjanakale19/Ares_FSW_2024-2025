@@ -78,24 +78,24 @@ void core0_processes(void* param) {
 
     // read core0/HSPI sensors
     GPS::readGPS(currentMillis);
-    BMP::readAltimeters(currentMillis);
+    // BMP::readAltimeters(currentMillis);
 
     // read CAN, will wait for 20 ms, set to 0 for non blocking
-    CANRX::decodeMessage(0);
+    // CANRX::decodeMessage(0);
 
-    if (CANRX::msgDecodeState != 1 && (currentMillis - Radio::lastTransmissionTime > 250)) {
-      Radio::downlink_packet = "";
-      Radio::downlink_packet += getSDstring();
-      Radio::downlink_packet += "," + String(XTSD::logSuccess);
+    // if (CANRX::msgDecodeState != 1 && (currentMillis - Radio::lastTransmissionTime > 250)) {
+    //   Radio::downlink_packet = "";
+    //   Radio::downlink_packet += getSDstring();
+    //   Radio::downlink_packet += "," + String(XTSD::logSuccess);
 
-      if (CANRX::msgDecodeState == 2) {
-        // Serial.println("got a complete CAN packet");
-        Radio::downlink_packet += "BODYTUBEDATA:" + CANRX::decoded_msg;
-        CANRX::msgDecodeState = 0;
-      }
-      Serial.println(Radio::downlink_packet);
-      Radio::transmitPacket(currentMillis);
-    }
+    //   if (CANRX::msgDecodeState == 2) {
+    //     // Serial.println("got a complete CAN packet");
+    //     Radio::downlink_packet += "BODYTUBEDATA:" + CANRX::decoded_msg;
+    //     CANRX::msgDecodeState = 0;
+    //   }
+    //   Serial.println(Radio::downlink_packet);
+    //   Radio::transmitPacket(currentMillis);
+    // }
   }
 }
 
@@ -110,13 +110,13 @@ void setup() {
   HAL::initVSPI_HAL();
   
   // initialize sensors
-  MS::setupMS();
-  BMP::setupBMP();
-  ICM::setupIMU();
+  // MS::setupMS();
+  // BMP::setupBMP();
+  // ICM::setupIMU();
   GPS::setup();
-  Radio::setupRadio();
-  XTSD::setupSD();
-  CANRX::setupCAN();
+  // Radio::setupRadio();
+  // XTSD::setupSD();
+  // CANRX::setupCAN();
     
   xTaskCreatePinnedToCore (
     core0_processes,     // Function to implement the task
@@ -132,17 +132,20 @@ void setup() {
 
 void loop() {
   // read core1/VSPI sensors
-  MS::readAltimeter();
-  ICM::readIMU();
-  INA::readINA();
+  // MS::readAltimeter();
+  // ICM::readIMU();
+  // INA::readINA();
   
   /* SD logging */
-  int oldTime = micros();
-  XTSD::logStr = getSDstring();
-  XTSD::logSD(XTSD::logStr);
-  XTSD::logTime = micros() - oldTime;
+  // int oldTime = micros();
+  // XTSD::logStr = getSDstring();
+  // XTSD::logSD(XTSD::logStr);
+  // XTSD::logTime = micros() - oldTime;
 
   /* DEBUG */
   // printDebug();
   // delay(100);
+
+  String s = String(GPS::latitude, 6) + "," + String(GPS::longitude, 6) + "," + String(GPS::altitude, 2) + "," + String(GPS::SIV);
+  Serial.println(s);
 }

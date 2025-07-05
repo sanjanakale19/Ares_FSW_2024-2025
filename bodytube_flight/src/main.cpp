@@ -26,14 +26,37 @@ String getSDstr() {
   return s;
 }
 
+void press_check_print() {
+  String s;
+
+  // ADS8688 PT voltage readings
+  s += "ADS8688 ch0 = " + String(ADS8688_PT::pt0, 3) + ", ch1 = " + String(ADS8688_PT::pt1, 3);
+  s += ", ch2 = " + String(ADS8688_PT::pt2, 3) + ", ch3 = " + String(ADS8688_PT::pt3, 3) + "\n";
+
+  // PT calibrated
+  s += "ox pt (ch0) = " + String(ADS8688_PT::ox_pt, 3) + ", press pt (ch1) = " + String(ADS8688_PT::press_pt, 3);
+  s += ", fuel pt (ch2) = " + String(ADS8688_PT::fuel_pt, 3) + ", cc pt (ch3) = " + String(ADS8688_PT::cc_pt, 3) + "\n";
+
+  // INA
+  s += "ina bus voltage: " + String(INA::bus_voltage, 3);
+
+  s += "\n\n";
+  Serial.println(s);
+}
+
 void printDebug() {
   String s;
 
   // altimeters
   s += "MS temp: " + String(MS::temp, 2) + " ˚C, pressure: " + String(MS::pressure, 2) + " mbar, alt: " + String(MS::altitude, 2) + " m\n";
-  // ADS8688 PT readings
+  // ADS8688 PT voltage readings
   s += "ADS8688 ch0 = " + String(ADS8688_PT::pt0, 3) + ", ch1 = " + String(ADS8688_PT::pt1, 3);
   s += ", ch2 = " + String(ADS8688_PT::pt2, 3) + ", ch3 = " + String(ADS8688_PT::pt3, 3) + "\n";
+
+  // PT calibrated
+  s += "ox pt (ch0) = " + String(ADS8688_PT::ox_pt, 3) + ", press pt (ch1) = " + String(ADS8688_PT::press_pt, 3);
+  s += ", fuel pt (ch2) = " + String(ADS8688_PT::fuel_pt, 3) + ", cc pt (ch3) = " + String(ADS8688_PT::cc_pt, 3) + "\n";
+
   // ADS1256 load cell readings
   s += "load cell weight = " + String(ADS1256_LOAD::weight, 8) + " lbf\n";
   // INA
@@ -57,7 +80,7 @@ void setup() {
   ADS8688_PT::setupADS8688();
   ADS1256_LOAD::setupADS();
   CANTX::setupCAN();
-  XTSD::setupSD();
+  // XTSD::setupSD();
 }
 
 // core 1 processing
@@ -85,7 +108,8 @@ void loop() {
   }
   
   /* DEBUG */
-  printDebug();
+  // printDebug();
+  press_check_print();
   // Serial.println(str);
   delay(100);
 }
