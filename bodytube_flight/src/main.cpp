@@ -26,7 +26,7 @@ String getSDstr() {
   return s;
 }
 
-void press_check_print() {
+String press_check_string() {
   String s;
 
   // ADS8688 PT voltage readings
@@ -41,7 +41,7 @@ void press_check_print() {
   s += "ina bus voltage: " + String(INA::bus_voltage, 3);
 
   s += "\n\n";
-  Serial.println(s);
+  return s;
 }
 
 void printDebug() {
@@ -92,14 +92,16 @@ void loop() {
   MS::readAltimeter(currentTime);       // 600 Hz
   ADS8688_PT::readADS(currentTime);     // 1k-2k
   ADS1256_LOAD::readADS();              // 1.3k
-  String str = getSDstr();
+  // String str = getSDstr();
+
+  String str = press_check_string();
 
   // /* SD logging */
   // int oldTime = micros();
   // XTSD::logStr = str;
   // XTSD::logSD(XTSD::logStr);
   // XTSD::logTime = micros() - oldTime
-  ;
+  
 
   // transmit CAN every second
   if (currentTime - CANTX::lastTransmission > 997) {
@@ -109,9 +111,8 @@ void loop() {
   
   /* DEBUG */
   // printDebug();
-  press_check_print();
-  // Serial.println(str);
-  delay(100);
+  Serial.println(str);
+  delay(50);
 }
 
 

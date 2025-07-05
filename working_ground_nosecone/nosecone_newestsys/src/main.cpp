@@ -52,8 +52,8 @@ String getSDstring() {
 void radioGPS(void* param) {
   while(1) {
     long current = millis();
-    GPS::readGPS();
-    BMP::readAltimeters();
+    // GPS::readGPS();
+    // BMP::readAltimeters();
 
     // read CAN, will wait for 20 ms, set to 0 for non blocking
     CANRX::decodeMessage(0);
@@ -66,9 +66,11 @@ void radioGPS(void* param) {
       if (CANRX::msgDecodeState == 2) {
         Radio::downlink_packet += "|" + CANRX::decoded_msg;
         CANRX::msgDecodeState = 0;
+
+        Serial.println(CANRX::decoded_msg);
       }
-      Serial.println(Radio::downlink_packet);
-      Radio::transmitPacket();
+      // Serial.println(Radio::downlink_packet);
+      // Radio::transmitPacket();
       Radio::lastTransmissionTime = current;
     }
 
@@ -91,18 +93,18 @@ void radioGPS(void* param) {
 }
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   INA::setupINA();
 
   HAL::initCSPins();
   HAL::initHSPI_HAL();
   HAL::initVSPI_HAL();
   
-  BMP::setupBMP();
-  ICM::setupIMU();
-  MS::setupMS();
-  GPS::setup();
-  Radio::setupRadio();
+  // BMP::setupBMP();
+  // ICM::setupIMU();
+  // MS::setupMS();
+  // GPS::setup();
+  // Radio::setupRadio();
   CANRX::setupCAN();
   // XTSD::setupSD();
   
@@ -120,9 +122,9 @@ void setup() {
 }
 
 void loop() {
-  MS::readAltimeter();
-  ICM::readIMU();
-  INA::readINA();
+  // MS::readAltimeter();
+  // ICM::readIMU();
+  // INA::readINA();
   
   // SD logging
   // int oldTime = micros();
@@ -134,5 +136,5 @@ void loop() {
   // DEBUG
   // Serial.println(XTSD::logStr);
 
-  delay(100);
+  // delay(20);
 }
