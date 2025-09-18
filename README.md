@@ -1,12 +1,12 @@
-#Rocket Project at UCLA: Ares Flight Software 2024-2025
-####Encompassing all code for Rocket Project 2024-2025 Avionics Systems.
+#Rocket Project at UCLA: Ares Flight Software 2024-2025  
+####Encompassing all code for Rocket Project 2024-2025 Avionics Systems.  
 
-##**About**
+##**About**  
 This code is intended to be used as a learning tool and knowledge transfer for future Avionics teams in Rocket Project at UCLA. Much of the code is system-specific and pinout-specific, so in order to utilize it for different PCBs, pinouts throughout the code base will need to be changed, as well as the serial communication protocol if it is different.  
 
 Furthermore, available library code is not a substitute for proper electronics handling and knowledge. Code will not function in the way it is intended if parts are placed wrong on a PCB, if components are provided with the wrong voltage/current, or if PCB is not constructed with close attention to ESD, contact with metal, E-housing, and connector continuity. It's integral to ensure every part of the hardware functions as intended before making major changes to software. 
 
-##**Dependencies**
+##**Dependencies**  
 * Git
 * Python3
 * C/C++
@@ -18,7 +18,7 @@ Furthermore, available library code is not a substitute for proper electronics h
 
 
 
-## File System Organization
+## File System Organization  
 
 **```full_code```** all finished code for bodytube, nosecone, ground station, SD dumping, GUI.  
 **```sensor_tests```** individual tests for ADS1256, CAN, ground station.  
