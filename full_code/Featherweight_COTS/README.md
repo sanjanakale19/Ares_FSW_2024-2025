@@ -1,6 +1,7 @@
 # Rocket Project at UCLA: Featherweight COTS system  
 Setup and usage for the Featherweight Altimeters GPS and Apogee Tracker, that is used as the COTS (commercial off-the-shelf) system as a backup for the 2024-2025 custom Avionics system.
 
+![featherweight](featherweight.jpeg)
 
 ## Setup   
 Setup is very simple for the Featherweight. 
@@ -27,6 +28,8 @@ Bluetooth connection is mainly in reference to the handheld ground station and y
 Upon turning the ON/OFF switch of the tracker to 'ON', a red/green light will flash once to indicate power. The ground station also has a light to indicate power, as well as data packets being received from the tracker module. 
 
 To interface with the Featherweight ground station, download the 'FeatherweightUI' app on your phone (this is the newest version of the app and has a better UI than the previous one). 
+
+![uiapp](./uiapp.jpeg)
 
 Navigate to the **Devices** column, and hit the "New Scan" button while both tracker (remote altimeter module) and receiver (ground station) are on and in range and the phone will discover them. Once each device is found by the phone, it should have a green 'BLE Connected' message for that device. If both antennas are connected, there will be a green ‘LoRa OK’ text to indicate tracker and receiver are paired. 
 
