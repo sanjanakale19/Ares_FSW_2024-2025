@@ -6,7 +6,7 @@ In order to quickly dump SD card data and save it to a file, it's useful to have
 
 The SD dump code communicates with the SD card breakout with the ESP32 S3 module via SPI (specifically wired to the HSPI bus in this case). 
 
-###Coolterm
+### Coolterm  
 Although the code will dump to serial monitor and this can be easily observed with the Arduino or VSCode application, neither IDE will give the ability to automatically save to a file. Furthermore, the storage in the Serial Monitor only supports up to 3MB max, making larger SD files difficult to copy in one go. 
 
 Coolterm is a nice alternative to viewing serial monitor output, as it allows you to easily change the Baud rate, view the amount of data downloaded, and can **save to a given file automatically.** 
