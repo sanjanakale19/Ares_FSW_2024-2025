@@ -8,7 +8,7 @@ The PCB is 2.2in x 2.65in, and is be mounted inside a 3D-printed E-Housing. Note
 
 There is a 2S battery socket (XT30-M) near the bottom of the board, and for convenience, the 2S battery is stored in a second printed E-Housing that sits below the PCB E-Housing.
 
-![](./gs_mecs.jpeg)
+![](./gs_mech.jpeg)
 
 ## Serial connection and ESP32
 The serial connection between the Ground Station PCB and a computer is by way of a USB-C SMD port on the PCB, this port connects to the USB input of the ESP32 S3 module. 
